@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import io
 
-
+# streamlit run C:/gibeom/개인자료/!Projects/Digital/ChatGPT/python/contractanalysis/Analytics.py
 
 openai.api_key = st.secrets["api_secret"]
 
@@ -22,8 +22,9 @@ def get_text():
 
 def chatGPT_conversation(conversation):
     response = openai.ChatCompletion.create(
-            model = 'gpt-3.5-turbo',
-            messages = conversation
+            # model='gpt-3.5-turbo',
+            model='gpt-4',
+            messages=conversation
             
     )
 
