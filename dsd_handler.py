@@ -2,7 +2,8 @@
 
 import os
 import zipfile
-from bs4 import BeautifulSoup as bs
+import bs4
+bs = bs4.BeautifulSoup
 import bs4
 import io
 
