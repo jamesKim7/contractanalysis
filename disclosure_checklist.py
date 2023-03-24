@@ -381,13 +381,34 @@ if file is not None:
 
             st.subheader('DSD 문단')
 
+            def to_df_change_first_row_col(data):
+                result_data = pd.DataFrame(data)
+                first_row = [str(ele) for ele in list(result_data.loc[0])]
+                first_row_without_duplicated = []
+
+                for i, ele in enumerate(first_row):
+                    new_col = str(ele)
+                    if first_row.count(new_col) > 1:
+                        while new_col in first_row_without_duplicated:
+                            new_col = new_col + '_c'
+
+                    first_row_without_duplicated.append(new_col)
+
+                print(first_row_without_duplicated)
+
+                result_data.columns = first_row_without_duplicated
+                result_data = result_data.drop(result_data.index[0])
+                result_data = result_data.set_index(first_row_without_duplicated[0])
+
+                return result_data
+
             with st.expander('보고서 커버'):
                 for tag in tag_list:
                     if tag['document_type'] == 'Intro':
                         if isinstance(tag['data'], str):
                             st.write(tag['data'])
                         elif isinstance(tag['data'], list):
-                            st.dataframe(data=pd.DataFrame(tag['data']))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']))
 
             with st.expander('BS'):
                 for tag in tag_list:
@@ -402,7 +423,7 @@ if file is not None:
                                         </style>
                                         """
                             st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
-                            st.dataframe(data=pd.DataFrame(tag['data']).style.format(thousands=","))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']).style.format(thousands=","))
 
             with st.expander('PL'):
                 for tag in tag_list:
@@ -410,7 +431,7 @@ if file is not None:
                         if isinstance(tag['data'], str):
                             st.write(tag['data'])
                         elif isinstance(tag['data'], list):
-                            st.dataframe(data=pd.DataFrame(tag['data']))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']))
 
             with st.expander('PL_OCI'):
                 for tag in tag_list:
@@ -418,7 +439,7 @@ if file is not None:
                         if isinstance(tag['data'], str):
                             st.write(tag['data'])
                         elif isinstance(tag['data'], list):
-                            st.dataframe(data=pd.DataFrame(tag['data']))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']))
 
             with st.expander('CE'):
                 for tag in tag_list:
@@ -426,7 +447,7 @@ if file is not None:
                         if isinstance(tag['data'], str):
                             st.write(tag['data'])
                         elif isinstance(tag['data'], list):
-                            st.dataframe(data=pd.DataFrame(tag['data']))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']))
 
             with st.expander('CF'):
                 for tag in tag_list:
@@ -434,7 +455,7 @@ if file is not None:
                         if isinstance(tag['data'], str):
                             st.write(tag['data'])
                         elif isinstance(tag['data'], list):
-                            st.dataframe(data=pd.DataFrame(tag['data']))
+                            st.dataframe(data=to_df_change_first_row_col(tag['data']))
 
             for tag in tag_list:
                 if tag['document_type'] == 'FN' and 'main_title' in tag['fn_sub_type']:
@@ -454,7 +475,7 @@ if file is not None:
                                                 </style>
                                                 """
                                     st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
-                                    st.dataframe(data=pd.DataFrame(tag2['data']).style.format(thousands=","))
+                                    st.dataframe(data=to_df_change_first_row_col(tag2['data']).style.format(thousands=","))
 
 
         with col2:
