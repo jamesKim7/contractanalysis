@@ -2,9 +2,11 @@
 import pandas as pd
 
 import dsd_handler
-from bs4 import BeautifulSoup as bs
+import bs4
+bs = bs4.BeautifulSoup
 import re
-from difflib import SequenceMatcher
+import difflib
+SequenceMatcher = difflib.SequenceMatcher
 import streamlit as st
 import io
 import openai
